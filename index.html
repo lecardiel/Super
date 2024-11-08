@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="estilos.css" />
+    <script src="https://unpkg.com/vue@3"></script>
+    <title>Carrito de Frutas</title>
+</head>
+ 
+<body>
+    <header>
+      <h1>Almacén Frutas y Verduras</h1>
+    </header>
+   
+    <section id="app">
+        <div class="container">
+            <div class="table-section">
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="5">Frutas: {{ totalFrutas }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(fruta, index) in frutas" :key="index">
+                            <td>
+                                <button @click="incrementarCantidad(index)">+</button>
+                                <input type="number" v-model.number="fruta.cantidad" min="0">
+                                <button :disabled="fruta.cantidad === 0" @click="decrementarCantidad(index)">-</button>
+                            </td>
+                            <td>{{ fruta.nombre }}</td>
+                            <td>$ {{ fruta.precioUnitario }}</td>
+                            <td>$ {{ montoFruta(index) }}</td>
+                            <td><button @click="eliminarFruta(index)" class="delete-button">🗑️</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="totals">
+                    <p>Subtotal: ${{ calcularSubtotal.toFixed(2) }}</p>
+                    <p>IVA: ${{ calcularIVA.toFixed(2) }}</p>
+                    <p>Total: ${{ calcularTotal.toFixed(2) }}</p>
+                </div>
+            </div>
+
+            <fieldset class="add-fruit-section">
+                <legend>Nueva Fruta</legend>
+                <label>Nombre:</label>
+                <input v-model="nuevaFruta" type="text" placeholder="Ingrese el nombre">
+                
+                <label>Cantidad:</label>
+                <input v-model.number="nuevaCantidad" type="number" min="0">
+                
+                <label>Precio:</label>
+                <input v-model.number="nuevoPrecio" type="number" min="0" step="0.1">
+                
+                <button @click="agregarNuevaFruta" class="add-button">Agregar</button>
+            </fieldset>
+        </div>
+    </section>
+ 
+    <script src="script.js"></script>
+</body>
+</html>
